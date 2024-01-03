@@ -19,7 +19,9 @@ class _CartState extends State<Cart> {
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Column(
+
         children: [
+          widget.cart.isNotEmpty?
           Expanded(
             child: ListView.builder(
               itemCount: widget.cart.length,
@@ -40,6 +42,14 @@ class _CartState extends State<Cart> {
                 );
               }
               ),
+          ):Center(
+            child: Container(
+              margin: EdgeInsets.all(5),
+              child: Text("No items in the cart",style: TextStyle(
+                color: Colors.grey,
+                fontSize: 15,
+              ),),
+            ),
           )
         ],
       )
