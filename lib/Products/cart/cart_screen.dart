@@ -11,6 +11,10 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  subtotal(){
+    return widget.cart.map((e) => e.product.price*e.quantity).reduce((value, element) => value+element);
+  }
+  double shipping_charge=80;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +46,35 @@ class _CartState extends State<Cart> {
               ),
           )
         ],
-      )
+      ),
+      bottomSheet:widget.cart.length==0?SizedBox():Container(
+        height: MediaQuery.of(context).size.height*0.15,
+        alignment: Alignment.center,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(12)
+          
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text("Sub Total:\$${subtotal()}"),
+            Text("Delivery Charge:\$${shipping_charge}"),
+            Text("Total:\$${subtotal()+shipping_charge}"),
+            TextButton(
+              style: ButtonStyle(
+                backgroundColor:MaterialStatePropertyAll(Colors.blue),
+              ),
+              onPressed: (){},
+             child: Text('CheckOut',style: TextStyle(
+              color: Colors.white
+             ),))
+  
+          ],
+        ),
+      ),
     );
   }
 }
