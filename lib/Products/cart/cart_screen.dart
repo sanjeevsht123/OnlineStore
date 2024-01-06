@@ -29,17 +29,49 @@ class _CartState extends State<Cart> {
               itemCount: widget.cart.length,
               itemBuilder: (context,index){
                 var index_num=widget.cart[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(index_num.product.image),
+                return Dismissible(
+                  direction: DismissDirection.endToStart,
+                  onDismissed: (direction) {
+                    widget.removeCart(index_num.product.id);
+                  },
+                  background: Container(
+                    color: Colors.red,
                   ),
-                  title: Text(index_num.product.title),
-                  subtitle: Text("\$${index_num.product.price.toString()} X ${index_num.quantity} = \$${index_num.product.price*index_num.quantity} "),
-                  trailing: IconButton(
-                    onPressed: (){
-                      widget.removeCart(widget.cart[index].product.id);
-                    },
-                    icon: Icon(Icons.delete,color: Colors.red,),
+                  key: Key(index_num.id.toString()),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(index_num.product.image),
+                    ),
+                    title: Text(index_num.product.title),
+                    subtitle: Text("\$${index_num.product.price.toString()} X ${index_num.quantity} = \$${index_num.product.price*index_num.quantity} "),
+                    trailing: IconButton(
+                      onPressed: (){
+                              showDialog(
+                              context: context,
+                              builder: (context){
+                                return AlertDialog(
+                                  title: Text("Delete Item"),
+                                  content: Text("Are you sure you want to delete ?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed:(){
+                                        Navigator.pop(context);
+                                      } , 
+                                      child: Text("Cancel")),
+
+                                      TextButton(
+                                        onPressed: (){
+                                          widget.removeCart(index_num.product.id);
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("Delete"))
+
+                                  ],
+                                );
+                              });
+                              },
+                      icon: Icon(Icons.delete,color: Colors.red,),
+                    ),
                   ),
                 );
               }
