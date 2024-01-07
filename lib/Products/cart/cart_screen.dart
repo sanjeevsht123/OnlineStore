@@ -83,15 +83,8 @@ class _CartState extends State<Cart> {
                 );
               }
               ),
-          ):Center(
-            child: Container(
-              margin: EdgeInsets.all(5),
-              child: Text("No items in the cart",style: TextStyle(
-                color: Colors.grey,
-                fontSize: 15,
-              ),),
-            ),
           )
+      
         ],
       ),
       bottomSheet:widget.cart.length==0?SizedBox():Container(
