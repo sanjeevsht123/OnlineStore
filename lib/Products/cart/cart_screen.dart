@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onlinestore/Products/cart/cartModel.dart';
+import 'package:onlinestore/Products/cart/checkout.dart';
 
 class Cart extends StatefulWidget {
   final List<cartModel> cart;
@@ -24,6 +25,11 @@ class _CartState extends State<Cart> {
       ),
       body: Column(
         children: [
+          widget.cart.length==0?
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 30),
+            child: Center(
+              child: Text(" No Item to show"))):
           Expanded(
             child: ListView.builder(
               itemCount: widget.cart.length,
@@ -99,7 +105,11 @@ class _CartState extends State<Cart> {
               style: ButtonStyle(
                 backgroundColor:MaterialStatePropertyAll(Colors.blue),
               ),
-              onPressed: (){},
+              onPressed: (){
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_)=>CheckOut())
+                );
+              },
              child: Text('CheckOut',style: TextStyle(
               color: Colors.white
              ),))
