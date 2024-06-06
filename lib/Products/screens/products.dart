@@ -28,70 +28,69 @@ class _ProductState extends State<Product> {
     setState(() {});
   }
 
-  fetchCategory() async{
-    category=await productService.getCategorey();
-    setState(() {
-    });
+  fetchCategory() async {
+    category = await productService.getCategorey();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Products"),
+        title: Text("Online Store"),
         backgroundColor: Colors.orangeAccent,
+        centerTitle: true,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Products",style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 20
-          ),),
-          SizedBox(height: 10,),
-          category!=null?
-          Wrap(
-            spacing: 5,
-            children: 
-            category!.map((category) =>
-                ActionChip(
-                  onPressed: () async{
-                   productModels=await productService.getProductCategory(category);
-                    setState(() {});
-                  },
-                  backgroundColor: Colors.orangeAccent,
-                  label: Text(category.toString()
-                  )
-                  )
-                  ).toList()
-          ):Center(
-            child: CircularProgressIndicator(),
+          Text(
+            "Products",
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          Expanded(
-            child:productModels !=null?
-             GridView.builder(
-              itemCount: productModels?.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-
-                
+          SizedBox(
+            height: 10,
+          ),
+          category != null
+              ? Wrap(
+                  spacing: 5,
+                  children: category!
+                      .map((category) => ActionChip(
+                          onPressed: () async {
+                            productModels = await productService
+                                .getProductCategory(category);
+                            setState(() {});
+                          },
+                          backgroundColor: Colors.orangeAccent,
+                          label: Text(category.toString())))
+                      .toList())
+              : Center(
+                  child: CircularProgressIndicator(),
                 ),
-              itemBuilder: (ctx,index){
-                return Product_card(
-                  addCart: widget.addCart,
-                 productModel: productModels![index],
-                );
-              }):
-              Center(
+          Expanded(
+            child: productModels != null
+                ? GridView.builder(
+                    itemCount: productModels?.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    ),
+                    itemBuilder: (ctx, index) {
+                      return Container(
+                        margin: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+                        child: Product_card(
+                          addCart: widget.addCart,
+                          productModel: productModels![index],
+                        ),
+                      );
+                    })
+                : Center(
                     child: CircularProgressIndicator(),
                   ),
-          )         
+          )
         ],
       ),
-
-     
     );
   }
 }
